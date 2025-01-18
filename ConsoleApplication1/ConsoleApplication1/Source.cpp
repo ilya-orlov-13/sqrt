@@ -345,7 +345,7 @@ string DivByTwo(string num) {
             }
             else {
                 curr = carry * 10;
-                cout << carry << ' ' << curr << endl;
+                //cout << carry << ' ' << curr << endl;
                 if (carry + '0' > '0') c++;
                 indexP = i;
             }
@@ -387,6 +387,117 @@ void CountCommas(int& k, int& index, string num) {
 
 }
 
+
+// Сложение двух строковых чисел
+string Sum(string a, string b) {
+
+    //записываем в переменную a строку максимальной длины
+    if (a.length() < b.length()) {
+        string temp = a;
+        a = b;
+        b = temp;
+    }
+    int aLen = a.length(), bLen = b.length();
+
+    //запятые в строке a
+    int kA = 0,      //количество запятых
+        indexA = 0;  //индекс
+
+    CountCommas(kA, indexA, a);
+
+    //запятые в строке b
+    int kB = 0,      //количество запятых
+        indexB = 0;  //индекс
+
+    CountCommas(kB, indexB, b);
+
+    int diffB = bLen - 1 - indexB; //индекс запятой в строке b с конца
+    int diffA = aLen - 1 - indexA; //индекс запятой в строке a с конца
+
+    if (kA > 1 or kB > 1) return "Некорректный ввод";
+
+    //вещественное число
+    else if (kA == 1 and kB == 1) {
+
+        //количесвто нулей, которые нужно добавить в строку с меньшим индексом
+        if (diffA <= diffB) {
+            int diff = diffB - diffA;
+            for (int i = 0; i < diff; i++) {
+                a += '0';
+            }
+        }
+        else {
+            int diff = diffA - diffB;
+            for (int i = 0; i < diff; i++) {
+                b += '0';
+            }
+        }
+
+        ShiftForDBT(a, indexA);
+        Del(a);
+        ShiftForDBT(b, indexB);
+        Del(b);
+
+
+    }
+
+    string result;
+    int carry = 0;
+
+    for (int i = 0; i < aLen; i++) {
+        // Числа
+
+        // для первого слагаемого берем цифры с конца строки a
+        int digitA = a[a.size() - 1 - i] - '0';
+        /*
+        для второго слагаемого берем цифры с конца строки b,
+        если индекс не выходит за пределы строки b,
+        иначе присваеваем второму слагаемому 0
+        */
+        int digitB = (i < b.size()) ? (b[b.size() - 1 - i] - '0') : 0;
+
+        //сумма чисел и переноса
+        int sum = digitA + digitB + carry;
+        //последняя цифра полученной суммы
+        char t = (sum % 10) + '0';
+        //добавление в резльтирующую строку этой цифры
+        result = t + result;
+        //первая цифра полученной суммы (перенос)
+        carry = sum / 10;
+    }
+    //добавление последнего переноса 
+    if (carry) {
+        char c = carry + '0';
+        result = c + result;
+    }
+
+    if (kA == 1 and kB == 1) {
+
+        int index = diffA >= diffB ? diffA : diffB;
+
+        //переворот строки и добавление точки
+        ReverseString(result);
+        result = '.' + result;
+        //сдвиг запятой на индекс, в котором она была в исходной строке
+        for (int i = 0; i < index + 1; i++) {
+            char temp = result[i];
+            result[i] = result[i + 1];
+            result[i + 1] = temp;
+        }
+
+        ReverseString(result);
+        result = Del(result);
+
+        //удаление ведущих нулей
+        if (result[0] == '0') {
+            int i = 0, k = 0;
+            return RemoveZeros(result, i, k);
+        }
+        else return result;
+    }
+
+    return result;
+}
 
 void TestRemoveZeros() {
     int countTests = 1;
@@ -487,7 +598,7 @@ void TestLessThanOrEqual() {
 
 }
 
-void TestOneDibBy() {
+void TestOneDivBy() {
     int countTests = 1;
 
     string a = "1.2312234";
@@ -521,3 +632,56 @@ void TestOneDibBy() {
     cout << countTests - 1 << endl << endl;
 }
 
+void TestDivByTwo() {
+    int countTests = 1;
+
+    string a = "1.2312234";
+
+    if (DivByTwo(a) == "0.6156117") {
+        countTests++; cout << "1)" << endl;
+    }
+    else cout << DivByTwo(a) << endl << endl;
+
+    a = "32143";
+
+    if (DivByTwo(a) == "16071.5") {
+        countTests++; cout << "2)" << endl;
+    }
+    else cout << DivByTwo(a) << endl << endl;
+
+    a = "12312.234";
+
+    if (DivByTwo(a) == "6156.117") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << DivByTwo(a) << endl << endl;
+
+    a = "2";
+
+    if (OneDivBy(a, 5) == "1") {
+        countTests++; cout << "4)" << endl;
+    }
+    else cout << DivByTwo(a) << endl << endl;
+
+    cout << countTests - 1 << endl << endl;
+}
+
+void TestSum() {
+    int countTests = 1;
+
+    string a = OneDivBy("216563", 10); string b = DivByTwo("4235");
+
+    if (Sum(a,b) == "2117.5") {
+        countTests++; cout << "1)" << endl;
+    }
+    else cout << Sum(a,b) << endl << endl;
+
+    a = OneDivBy("32.143", 10); string b = DivByTwo("4,235");
+
+    if (Sum(a,b) == "2.14861") {
+        countTests++; cout << "2)" << endl;
+    }
+    else cout << Sum(a,b) << endl << endl;
+
+    cout << countTests - 1 << endl << endl;
+}

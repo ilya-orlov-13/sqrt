@@ -18,5 +18,11 @@ int main()
     TestSubtract();
 
     cout << "Деление единицы на число:" << endl;
-    TestOneDibBy();
+    TestOneDivBy();
+
+    cout << "Деление числа на 2:" << endl;
+    TestDivByTwo();
+
+    cout << "Деление числа на 2:" << endl;
+    TestSum();
 }

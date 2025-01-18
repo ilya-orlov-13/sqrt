@@ -17,4 +17,10 @@ bool LessThanOrEqual(string a, string b);
 void TestLessThanOrEqual();
 
 string OneDivBy(string num, int precision);
-void TestOneDibBy();
+void TestOneDivBy();
+
+string DivByTwo(string num);
+void TestDivByTwo();
+
+string Sum(string a, string b);
+void TestSum();
