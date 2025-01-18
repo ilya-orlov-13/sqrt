@@ -9,3 +9,515 @@ void ReverseString(string& str) {
         str[n - 1 - i] = temp;
     }
 }
+
+
+//удаление ведущих нулей
+string RemoveZeros(string& result, int& i, int& k) {
+
+    while (result[i] == '0') {
+        k++; i++;
+    }
+
+    string res(result.length() - k, '0');
+    for (int j = i; j < result.length(); j++) {
+        res[j - k] = result[j];
+    }
+
+    if (result[i] == '.' or result[i] == ',') {
+        res = '0' + res;
+    }
+
+    return res;
+}
+
+// Сравнение строковых чисел
+bool LessThanOrEqual(string a, string b) {
+    int pA = -1, pB = -1;
+
+    for (int i = 0; i < a.size(); i++) {
+        if (a[i] == '.' or a[i] == ',') {
+            pA = i;
+            break;
+        }
+    }
+
+    for (int i = 0; i < b.size(); i++) {
+        if (b[i] == '.' or b[i] == ',') {
+            pB = i;
+            break;
+        }
+    }
+
+    //если точки нет, добавляем в конец строки
+    if (pA == -1) {
+        pA = a.size();
+        a += ".0";
+    }
+
+    if (pB == -1) {
+        pB = b.size();
+        b += ".0";
+    }
+
+    if (pA < pB) return true;
+    if (pA > pB) return false;
+
+
+    int i = 0;
+    if (pA == pB) {
+        //сравнение целых частей
+        while (i < pA and i < pB) {
+            if (a[i] < b[i]) return true; //a<b
+            if (a[i] > b[i]) return false; //a>b
+            i++;
+        }
+    }
+
+    if ((a.size() - 1 - i) > (b.size() - 1 - i)) return true; //a<b
+    else if ((a.size() - 1 - i) < (b.size() - 1 - i)) return false; //a>b
+    else {
+        //сравнение дробных частей
+        i = pA + 1;
+        while (i < a.size() and i < b.size()) {
+            if (a[i] < b[i]) return true; //a<b
+            if (a[i] > b[i]) return false; //a>b
+            i++;
+        }
+    }
+    return true;
+
+}
+
+// Функция для вычитания двух строковых чисел
+string Subtract(string a, string b) {
+    if (LessThanOrEqual(b, a)) {
+        string result(a.size(), '0');
+        int carry = 0;
+
+        for (int i = 0; i < a.size(); i++) {
+            //цифры
+            int digitA = a[a.size() - 1 - i] - '0';
+            int digitB = (i < b.size()) ? (b[b.size() - 1 - i] - '0') : 0;
+            //вычитание из текущей цифры первого числа текущей цифры второго и переноса
+            int diff = digitA - digitB - carry;
+            //перенос
+            if (diff < 0) {
+                diff += 10;
+                carry = 1;
+            }
+            else {
+                carry = 0;
+            }
+            //добавление цифры в результат
+            result[result.size() - 1 - i] = diff + '0';
+        }
+
+        //удаление ведущих нулей
+        if (result[0] == '0') {
+            int i = 0, k = 0;
+            return RemoveZeros(result, i, k);
+        }
+
+        else return result;
+
+        cout << result << endl << endl;
+    }
+
+    return "0";
+}
+
+
+//удаление запятой
+string Del(string num) {
+    string n(num.size() - 1, '0');
+    for (int i = 0; i < num.size() - 1; i++) {
+        n[i] = num[i];
+    }
+    return n;
+}
+
+//сдвиг запятой без добавления нулей в строку с результатом
+//для функции деления на 2
+void ShiftForDBT(string& num, int i) {
+    while (i != num.size() - 1) {
+        char temp = num[i];
+        num[i] = num[i + 1];
+        num[i + 1] = temp;
+        if (num[i + 1]) i++;
+    }
+}
+
+//сдвиг запятой с добавлением нулей в строку с результатом
+void Shift(string& num, string& n, int& i) {
+    while (i != num.size() - 1) {
+        char temp = num[i];
+        num[i] = num[i + 1];
+        num[i + 1] = temp;
+        n += '0';
+        if (num[i + 1]) i++;
+    }
+}
+
+
+// Деление 1 на число
+string OneDivBy(string num, int precision) {
+    string one = "1";
+    string result = ".";
+
+    int k = 0,    //количество запятых
+        index = 0;//индекс
+
+    for (int i = 0; i < num.size(); i++) {
+        if (num[i] == '.' or num[i] == ',') {
+            k++; index = i;
+        }
+    }
+
+    if (k > 1) return "Некорректный ввод";
+
+    else if (num[index] == '.' or num[index] == ',') {
+        //сдвиг запятой
+        while (index != num.size() - 1) {
+            char temp = num[index];
+            num[index] = num[index + 1];
+            num[index + 1] = temp;
+            if (num[index + 1]) {
+                index++; one += '0';
+            }
+            //cout << num << ' ' << one << endl;
+        }
+
+        //удаление запятой
+        string n = Del(num);
+
+        //cout << endl << n << endl;
+
+        //добавление нулей в делимое и частное
+        while (Subtract(one, n) == "0") {
+            one += '0'; result += '0';
+            //cout << n << ' ' << one << endl;
+        }
+
+        string o = one;
+        string subtr = n;
+
+        for (int p = 0; p < precision; p++) {
+            // Целая часть текущей итерации
+            int i = 0;
+            while (LessThanOrEqual(subtr, one)) {
+                one = Subtract(one, subtr);
+                i++;
+                //cout << n << ' ' << one << endl;
+            }
+
+            result += (i + '0');
+
+            // Добавляем "0" к делимому для следующей итерации
+            one += '0';
+        }
+
+
+        // Если точка осталась в конце, убираем её
+        if (result.back() == '.') {
+            result = Del(result);
+        }
+    }
+
+    else if (k == 0) {
+        string n = num;
+
+        //добавление нулей в делимое и частное
+        while (Subtract(one, n) == "0") {
+            one += '0'; result += '0';
+            //cout << n << ' ' << one << endl;
+        }
+
+        string o = one;
+        string subtr = n;
+
+        for (int p = 0; p < precision; p++) {
+            // Целая часть текущей итерации
+            int i = 0;
+            while (LessThanOrEqual(subtr, one)) {
+                one = Subtract(one, subtr);
+                i++;
+                //cout << n << ' ' << one << endl;
+            }
+
+            result += (i + '0');
+
+            // Добавляем "0" к делимому для следующей итерации
+            one += '0';
+        }
+    }
+    char temp = result[0];
+    result[0] = result[1];
+    result[1] = temp;
+    return result;
+}
+
+
+// Деление на 2
+string DivByTwo(string num) {
+
+    int k = 0,      //количество запятых
+        index = 0;  //индекс
+
+    for (int i = 0; i < num.size(); i++) {
+        if (num[i] == '.' or num[i] == ',') {
+            k++; index = i;
+        }
+    }
+
+    if (k > 1) return "Некорректный ввод";
+
+    //вещественное число
+    else if (k == 1) {
+
+        string result;
+
+        //сдвиг запятой в конец строки
+        ShiftForDBT(num, index);
+        //удаление запятой из строки
+        num = Del(num);
+
+        //перенос
+        int carry = 0;
+        int s = num.size();
+        int indexP = 0, c = 0;
+
+        // Деление
+        //цикл с s+1 итерацией для возможной дробной части
+        for (int i = 0; i < s + 1; i++) {
+            int curr = 0;
+            //если цифра есть в исходной строке, текущий перенос
+            //складывается из остатка от деления на 2 предыдущего переноса и цифры в исходной строке
+            if ((num[i] - '0') > 0) {
+                curr = carry * 10 + (num[i] - '0');
+            }
+            //иначе в текущий перенос справа добавляется 0
+            else {
+                curr = carry * 10;/*
+                if(carry+'0'>'0') c++;
+                indexP = i;*/
+            }
+            //добавленме цифры в строку с результатом
+            result += (curr / 2) + '0';
+            carry = curr % 2;
+
+        }
+
+        //переворот строки и добавление точки
+        ReverseString(result);
+        result = '.' + result;
+        //сдвиг запятой на индекс, в котором она была в исходной строке
+        for (int i = 0; i < result.size() - 1 - index; i++) {
+            char temp = result[i];
+            result[i] = result[i + 1];
+            result[i + 1] = temp;
+        }
+
+        ReverseString(result);
+
+        //удаление ведущих нулей
+        if (result[0] == '0') {
+            int i = 0, k = 0;
+            return RemoveZeros(result, i, k);
+        }
+        else return result;
+
+    }
+
+    //целое число
+    else if (k == 0) {
+        string result;
+
+        int carry = 0;
+        int s = num.size();
+        int indexP = 0, //индекс запятой
+            c = 0;      //количество чисел после запятой
+
+        //деление
+        for (int i = 0; i < s + 1; i++) {
+            int curr = 0;
+            if ((num[i] - '0') > 0) {
+                curr = carry * 10 + (num[i] - '0');
+            }
+            else {
+                curr = carry * 10;
+                cout << carry << ' ' << curr << endl;
+                if (carry + '0' > '0') c++;
+                indexP = i;
+            }
+
+            result += (curr / 2) + '0';
+            carry = curr % 2;
+
+        }
+
+        //добавление запятой
+        ReverseString(result);
+        result = '.' + result;
+
+        for (int i = 0; i < result.size() - 1 - indexP; i++) {
+            char temp = result[i];
+            result[i] = result[i + 1];
+            result[i + 1] = temp;
+        }
+
+        ReverseString(result);
+
+        //удаление ведущих нулей
+        if (result[0] == '0') {
+
+            int i = 0, k = 0;
+            return RemoveZeros(result, i, k);
+
+        }
+        else return result;
+    }
+}
+
+void CountCommas(int& k, int& index, string num) {
+    for (int i = 0; i < num.size(); i++) {
+        if (num[i] == '.' or num[i] == ',') {
+            k++; index = i;
+        }
+    }
+
+}
+
+
+void TestRemoveZeros() {
+    int countTests = 1;
+
+    string result = "0.0011";
+    int i = 0, k = 0;
+    if (RemoveZeros(result, i, k) == "0.0011") {
+        countTests++; cout << "1)" << endl;
+    }
+    else cout << RemoveZeros(result, i, k) << endl << endl;
+
+    result = "000.221";
+
+    if (RemoveZeros(result, i, k) == "0.221") {
+        countTests++; cout << "2)" << endl;
+    }
+    else cout << RemoveZeros(result, i, k) << endl << endl;
+
+    result = "000221";
+
+    if (RemoveZeros(result, i, k) == "221") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << RemoveZeros(result, i, k) << endl << endl;
+
+    cout << countTests-1<<endl<<endl;
+
+}
+
+void TestSubtract() {
+    int countTests = 1;
+
+    string a = "12312234"; string b = "32143";
+
+    if (Subtract(a, b) == "12280091") {
+        countTests++; cout << "1)" << endl;
+    }
+    else cout << Subtract(a, b) << endl << endl;
+
+    a = "2312234"; b = "32143";
+
+    if (Subtract(a, b) == "2280091") {
+        countTests++; cout << "2)" << endl;
+    }
+    else cout << Subtract(a, b) << endl << endl;
+
+    a = "12312234"; b = "32143";
+
+    if (Subtract(b, a) == "0") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << Subtract(a, b) << endl << endl;
+
+
+    cout << countTests - 1 << endl << endl;
+
+}
+
+void TestLessThanOrEqual() {
+    int countTests = 1;
+
+    string a = "12312234"; string b = "32143";
+
+    if (LessThanOrEqual(a, b) == false) {
+        countTests++; cout << "1)"<<endl;
+    }
+    else { cout << endl<< LessThanOrEqual(a, b) << endl << endl; };
+
+    a = "10000"; b = "32143";
+
+    if (LessThanOrEqual(a, b) == true) {
+        countTests++; cout << "2)" << endl;
+    }
+    else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
+
+    a = "100000"; b = "32143";
+
+    if (LessThanOrEqual(a, b) == false) {
+        countTests++; cout << "3)" << endl;
+    }
+    else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
+
+    a = "23.12234"; b = "32143";
+
+    if (LessThanOrEqual(a, b) == true) {
+        countTests++; cout << "4)" << endl;
+    }
+    else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
+
+    a = "32,143"; b = "32143";
+
+    if (LessThanOrEqual(b, a) == false) {
+        countTests++; cout << "5)" << endl;
+    }
+    else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
+
+    cout << countTests - 1 << endl << endl;
+
+}
+
+void TestOneDibBy() {
+    int countTests = 1;
+
+    string a = "1.2312234";
+
+    if (OneDivBy(a, 4) == "0.8122") {
+        countTests++; cout << "1)" << endl;
+    }
+    else cout << OneDivBy(a, 4) << endl << endl;
+
+    a = "32143";
+
+    if (OneDivBy(a, 10) == "0.0000311109") {
+        countTests++; cout << "2)" << endl;
+    }
+    else cout << OneDivBy(a, 10) << endl << endl;
+
+    a = "12312.234";
+
+    if (OneDivBy(a, 5) == "0.00008") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << OneDivBy(a, 5) << endl << endl;
+
+    a = "2";
+
+    if (OneDivBy(a, 5) == "0.5") {
+        countTests++; cout << "4)" << endl;
+    }
+    else cout << OneDivBy(a, 1) << endl << endl;
+
+    cout << countTests - 1 << endl << endl;
+}
+

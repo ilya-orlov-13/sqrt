@@ -6,8 +6,17 @@ using namespace std;
 
 int main()
 {
-    string a = "123456";
-    cout << a;
-    ReverseString(a);
-    cout << a << endl << endl;
+    setlocale(LC_ALL, "ru");
+
+    cout << "Удаление ведущих нулей"<<endl;
+    TestRemoveZeros();
+
+    cout << "Сравнение чисел:" << endl;
+    TestLessThanOrEqual();
+
+    cout << "Вычитание чисел:" << endl;
+    TestSubtract();
+
+    cout << "Деление единицы на число:" << endl;
+    TestOneDibBy();
 }
