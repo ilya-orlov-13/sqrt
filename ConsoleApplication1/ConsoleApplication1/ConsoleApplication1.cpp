@@ -23,6 +23,9 @@ int main()
     cout << "Деление числа на 2:" << endl;
     TestDivByTwo();
 
-    cout << "Деление числа на 2:" << endl;
+    cout << "Сумма:" << endl;
     TestSum();
+
+    cout << "Произведение:" << endl;
+    TestMultiply();
 }

@@ -1,4 +1,5 @@
 #include "Header.h"
+using namespace std;
 
 // Функция для переворота строки
 void ReverseString(string& str) {
@@ -88,9 +89,68 @@ bool LessThanOrEqual(string a, string b) {
 
 }
 
-// Функция для вычитания двух строковых чисел
-string Subtract(string a, string b) {
+// Функция для вычитания двух вещественных чисел
+string SubtractFloat(string a, string b) {
     if (LessThanOrEqual(b, a)) {
+
+        int aLen = a.length(), bLen = b.length();
+
+        //запятые в строке a
+        int kA = 0,      //количество запятых
+            indexA = 0;  //индекс
+
+        CountCommas(kA, indexA, a);
+
+        //запятые в строке b
+        int kB = 0,      //количество запятых
+            indexB = 0;  //индекс
+
+        CountCommas(kB, indexB, b);
+
+        int diffB = bLen - 1 - indexB; //индекс запятой в строке b с конца
+        int diffA = aLen - 1 - indexA; //индекс запятой в строке a с конца
+
+        if (kA > 1 or kB > 1) return "Некорректный ввод";
+
+        //вещественное число
+        else if (kA == 1 and kB == 1) {
+
+            int iA = indexA; kA = 0;
+            int iB = indexB; kB = 0;
+
+            while (iA < iB or iA > iB) {
+                if (iA > iB) {
+                    b = '0' + b;
+                    CountCommas(kB, iB, b);
+
+                    //cout << iA << ' ' << iB<<endl;
+                }
+                else if (iA < iB) {
+                    a = '0' + a;
+                    CountCommas(kA, iA, a);
+
+                    //cout << iA << ' ' << iB << endl;
+                }
+            }
+            //количесвто нулей, которые нужно добавить в строку с меньшим индексом
+
+            while (a.size() != b.size()) {
+                if (diffA <= diffB) a += '0';
+                else b += '0';
+                //cout << a << endl << b << endl;
+            }
+
+            //cout << indexA << ' ' << iA << endl;
+
+            ShiftForDBT(a, iA);
+            Del(a);
+            ShiftForDBT(b, iB);
+            Del(b);
+            kA = 1; kB = 1;
+            //cout << a << endl << b << endl;
+            aLen = a.size();
+        }
+
         string result(a.size(), '0');
         int carry = 0;
 
@@ -112,20 +172,78 @@ string Subtract(string a, string b) {
             result[result.size() - 1 - i] = diff + '0';
         }
 
-        //удаление ведущих нулей
-        if (result[0] == '0') {
-            int i = 0, k = 0;
-            return RemoveZeros(result, i, k);
+
+        if (kA >= 1 and kB >= 1) {
+
+            int index = diffA >= diffB ? diffA : diffB;
+            //cout << index<<endl;
+
+            //переворот строки и добавление точки
+            ReverseString(result);
+            result = '.' + result;
+            //сдвиг запятой на индекс, в котором она была в исходной строке
+            for (int i = 0; i < index + 1; i++) {
+                char temp = result[i];
+                result[i] = result[i + 1];
+                result[i + 1] = temp;
+            }
+
+            ReverseString(result);
+            result = Del(result);
+
+            //удаление ведущих нулей
+            if (result[0] == '0') {
+                int i = 0, k = 0;
+                return RemoveZeros(result, i, k);
+            }
+            else return result;
         }
 
-        else return result;
-
-        cout << result << endl << endl;
     }
+
 
     return "0";
 }
 
+// Функция для вычитания двух целых чисел, для функций деления
+string Subtract(string a, string b) {
+    if (LessThanOrEqual(b, a)) {
+
+
+        string result(a.size(), '0');
+        int carry = 0;
+
+        for (int i = 0; i < a.size(); i++) {
+            //цифры
+            int digitA = a[a.size() - 1 - i] - '0';
+            int digitB = (i < b.size()) ? (b[b.size() - 1 - i] - '0') : 0;
+            //вычитание из текущей цифры первого числа текущей цифры второго и переноса
+            int diff = digitA - digitB - carry;
+            //перенос
+            if (diff < 0) {
+                diff += 10;
+                carry = 1;
+            }
+            else {
+                carry = 0;
+            }
+            //добавление цифры в результат
+            result[result.size() - 1 - i] = diff + '0';
+        }
+
+
+            //удаление ведущих нулей
+            if (result[0] == '0') {
+                int i = 0, k = 0;
+                return RemoveZeros(result, i, k);
+            }
+            else return result;
+
+    }
+
+
+    return "0";
+}
 
 //удаление запятой
 string Del(string num) {
@@ -387,7 +505,6 @@ void CountCommas(int& k, int& index, string num) {
 
 }
 
-
 // Сложение двух строковых чисел
 string Sum(string a, string b) {
 
@@ -415,30 +532,44 @@ string Sum(string a, string b) {
     int diffA = aLen - 1 - indexA; //индекс запятой в строке a с конца
 
     if (kA > 1 or kB > 1) return "Некорректный ввод";
-
+    
     //вещественное число
     else if (kA == 1 and kB == 1) {
 
+        int iA = indexA; kA = 0;
+        int iB = indexB; kB = 0;
+
+        while (iA < iB or iA > iB) {
+            if (iA > iB) {
+                b = '0' + b;
+                CountCommas(kB, iB, b);
+
+                //cout << iA << ' ' << iB<<endl;
+            }
+            else if (iA < iB) {
+                a = '0' + a;
+                CountCommas(kA, iA, a);
+
+                //cout << iA << ' ' << iB << endl;
+            }
+        }
         //количесвто нулей, которые нужно добавить в строку с меньшим индексом
-        if (diffA <= diffB) {
-            int diff = diffB - diffA;
-            for (int i = 0; i < diff; i++) {
-                a += '0';
-            }
-        }
-        else {
-            int diff = diffA - diffB;
-            for (int i = 0; i < diff; i++) {
-                b += '0';
-            }
+        
+        while (a.size() != b.size()) {
+            if (diffA <= diffB) a += '0';
+            else b += '0';
+            //cout << a << endl << b << endl;
         }
 
-        ShiftForDBT(a, indexA);
+        //cout << indexA << ' ' << iA << endl;
+
+        ShiftForDBT(a, iA);
         Del(a);
-        ShiftForDBT(b, indexB);
+        ShiftForDBT(b, iB);
         Del(b);
-
-
+        kA = 1; kB = 1;
+        //cout << a << endl << b << endl;
+        aLen = a.size();
     }
 
     string result;
@@ -471,9 +602,10 @@ string Sum(string a, string b) {
         result = c + result;
     }
 
-    if (kA == 1 and kB == 1) {
+    if (kA >= 1 and kB >= 1) {
 
         int index = diffA >= diffB ? diffA : diffB;
+        //cout << index<<endl;
 
         //переворот строки и добавление точки
         ReverseString(result);
@@ -497,6 +629,129 @@ string Sum(string a, string b) {
     }
 
     return result;
+}
+
+//умножение двух чисел
+string Multiply(string a, string b) {
+
+    //записываем в переменную a строку максимальной длины
+    if (a.length() < b.length()) {
+        string temp = a;
+        a = b;
+        b = temp;
+    }
+    int aLen = a.length(), bLen = b.length();
+
+    //запятые в строке a
+    int kA = 0,      //количество запятых
+        indexA = 0;  //индекс
+
+    CountCommas(kA, indexA, a);
+
+    //запятые в строке b
+    int kB = 0,      //количество запятых
+        indexB = 0;  //индекс
+
+    CountCommas(kB, indexB, b);
+    if (kA == 0 or kB == 0) {
+        if (kA == 0) {
+            a += '.';
+            indexA = a.size() - 1;
+            kA = 1;
+            aLen = a.size();
+        }
+        else {
+            b += '.';
+            indexB = b.size() - 1;
+            kB = 1;
+            bLen = b.size();
+        }
+    }
+    int diffB = bLen - 1 - indexB; //индекс запятой в строке b с конца
+    int diffA = aLen - 1 - indexA; //индекс запятой в строке a с конца
+
+    if (kA > 1 or kB > 1) return "Некорректный ввод";
+
+    //вещественное число
+    else if (kA == 1 and kB == 1) {
+
+        //cout << indexA << ' ' << iA << endl;
+
+        ShiftForDBT(a, indexA);
+        Del(a);
+        ShiftForDBT(b, indexB);
+        Del(b);
+        kA = 1; kB = 1;
+        //cout << a << endl << b << endl;
+        aLen = a.size();
+    }
+
+    int len1 = a.size(), len2 = b.size();
+    string result(len1 + len2, '0');
+
+    for (int i = len1 - 2; i >= 0; i--) {
+        int carry = 0;
+        for (int j = len2 - 2; j >= 0; j--) {
+            //сумма произведения двух текущих цифр, 
+            //цифры из текущего разряда строки с произведением предыдущей цифры из первого числа, второго числа
+            //и переноса
+            int mul = (a[i] - '0') * (b[j] - '0') + (result[i + j + 1] - '0') + carry;
+            carry = mul / 10;
+            result[i + j + 1] = (mul % 10) + '0';
+        }
+        result[i] += carry;
+    }
+
+    if (kA >= 1 and kB >= 1) {
+
+        int index = diffA + diffB + 1;
+        //cout << index<<endl;
+
+        //переворот строки и добавление точки
+        ReverseString(result);
+        result = '.' + result;
+        //сдвиг запятой на индекс, в котором она была в исходной строке
+        for (int i = 0; i < index + 1; i++) {
+            char temp = result[i];
+            result[i] = result[i + 1];
+            result[i + 1] = temp;
+        }
+
+        ReverseString(result);
+        result = Del(result);
+
+        //удаление ведущих нулей
+        if (result[0] == '0') {
+            int i = 0, k = 0;
+            return RemoveZeros(result, i, k);
+        }
+        else return result;
+    }
+}
+
+
+string Sqrt(string num, int precision) {
+    string n, result;
+
+    if (num[0] == '-') {
+        for (int i = 1; i < num.size(); i++) {
+            n += num[i];
+            
+        }
+        result += '-';
+    }
+    else {
+        n = num;
+    }
+
+    string x = "1.5", b = OneDivBy(n, 10);
+    string c = OneDivBy(x, 10);
+
+    for (int i = 0; i < precision; i++) {
+        x = SubtractFloat(Sum(c, x), Multiply(x, b));
+    }
+
+    cout << x;
 }
 
 void TestRemoveZeros() {
@@ -544,12 +799,19 @@ void TestSubtract() {
     }
     else cout << Subtract(a, b) << endl << endl;
 
-    a = "12312234"; b = "32143";
+    a = "42312.234"; b = "32143.0";
 
-    if (Subtract(b, a) == "0") {
+    if (SubtractFloat(a, b) == "10169.234") {
         countTests++; cout << "3)" << endl;
     }
-    else cout << Subtract(a, b) << endl << endl;
+    else cout << SubtractFloat(a, b) << endl << endl;
+
+    a = "123.12234"; b = "32.143";
+
+    if (SubtractFloat(a, b) == "90.97934") {
+        countTests++; cout << "4)" << endl;
+    }
+    else cout << SubtractFloat(a, b) << endl << endl;
 
 
     cout << countTests - 1 << endl << endl;
@@ -587,9 +849,9 @@ void TestLessThanOrEqual() {
     }
     else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
 
-    a = "32,143"; b = "32143";
+    a = "32,143"; b = "3.2143";
 
-    if (LessThanOrEqual(b, a) == false) {
+    if (LessThanOrEqual(b, a) == true) {
         countTests++; cout << "5)" << endl;
     }
     else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
@@ -676,12 +938,54 @@ void TestSum() {
     }
     else cout << Sum(a,b) << endl << endl;
 
-    a = OneDivBy("32.143", 10); string b = DivByTwo("4,235");
+    a = OneDivBy("32.143", 10);  b = DivByTwo("4,235");
 
     if (Sum(a,b) == "2.14861") {
         countTests++; cout << "2)" << endl;
     }
     else cout << Sum(a,b) << endl << endl;
+
+    a = DivByTwo("4,235");  b = OneDivBy("32.143", 10);
+
+    if (Sum(a, b) == "2.14861") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << Sum(a, b) << endl << endl;
+
+    a = OneDivBy("49", 10);  b = DivByTwo("49");
+
+    if (Sum(a, b) == "7") {
+        countTests++; cout << "4)" << endl;
+    }
+    else cout << Sum(a, b) << endl << endl;
+
+    cout << countTests - 1 << endl << endl;
+}
+
+void TestMultiply() {
+    int countTests = 1;
+
+    string a = DivByTwo("216563"); string b = "4.5";
+
+    if (Multiply(b,a) == "433126") {
+        countTests++; cout << "1)" << endl;
+    }
+    else cout << Multiply(b, a) << endl << endl;
+
+    a = "49"; b = DivByTwo("45254");
+
+    if (Multiply(a, b) == "433126") {
+        countTests++; cout << "2)" << endl;
+    }
+    else cout << Multiply(b, a) << endl << endl;
+
+    a = "1.5"; b = OneDivBy("49",10);
+    string c = OneDivBy(a, 10);
+
+    if (SubtractFloat(Sum(c,a),Multiply(a, b)) == "433126") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout <<SubtractFloat(Sum(c, a), Multiply(a, b)) << endl << endl;
 
     cout << countTests - 1 << endl << endl;
 }

@@ -3,6 +3,8 @@
 #include <string>
 using namespace std;
 
+string Del(string num);
+void ShiftForDBT(string& num, int i);
 void CountCommas(int& k, int& index, string num);
 
 void ReverseString(string& str);
@@ -24,3 +26,6 @@ void TestDivByTwo();
 
 string Sum(string a, string b);
 void TestSum();
+
+string Multiply(string num1, string num2);
+void TestMultiply();
