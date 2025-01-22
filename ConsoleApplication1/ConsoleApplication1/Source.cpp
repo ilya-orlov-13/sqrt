@@ -11,9 +11,8 @@ void ReverseString(string& str) {
     }
 }
 
-
 //удаление ведущих нулей
-string RemoveZeros(string& result, int& i, int& k) {
+string RemoveZeros(string& result, int i, int k) {
 
     while (result[i] == '0') {
         k++; i++;
@@ -26,6 +25,27 @@ string RemoveZeros(string& result, int& i, int& k) {
 
     if (result[i] == '.' or result[i] == ',') {
         res = '0' + res;
+    }
+
+    string r;
+    int P = 0, index = 0;
+    CountCommas(P, index, res);
+
+    if (P == 1) {
+        ReverseString(res);
+        k = 0; i = 0;
+        
+        while (res[i] == '0') {
+            k++; i++;
+        }
+
+        string r(res.length() - k, '0');
+        for (int j = i; j < res.length(); j++) {
+            r[j - k] = res[j];
+        }
+
+        ReverseString(r);
+        return r;
     }
 
     return res;
@@ -106,6 +126,21 @@ string SubtractFloat(string a, string b) {
             indexB = 0;  //индекс
 
         CountCommas(kB, indexB, b);
+
+        if (kA == 0 or kB == 0) {
+            if (kA == 0) {
+                a += '.';
+                indexA = a.size() - 1;
+                kA = 1;
+                aLen = a.size();
+            }
+            else {
+                b += '.';
+                indexB = b.size() - 1;
+                kB = 1;
+                bLen = b.size();
+            }
+        }
 
         int diffB = bLen - 1 - indexB; //индекс зап€той в строке b с конца
         int diffA = aLen - 1 - indexA; //индекс зап€той в строке a с конца
@@ -368,16 +403,24 @@ string OneDivBy(string num, int precision) {
             one += '0';
         }
     }
+    //сдвиг зап€той
     char temp = result[0];
     result[0] = result[1];
     result[1] = temp;
-    return result;
-}
 
+
+    //удаление ведущих нулей
+    if (result[0] == '0') {
+        int i = 0, k = 0;
+        return RemoveZeros(result, i, k);
+    }
+    else return result;
+}
 
 // ƒеление на 2
 string DivByTwo(string num) {
 
+    string result;
     int k = 0,      //количество зап€тых
         index = 0;  //индекс
 
@@ -392,7 +435,6 @@ string DivByTwo(string num) {
     //вещественное число
     else if (k == 1) {
 
-        string result;
 
         //сдвиг зап€той в конец строки
         ShiftForDBT(num, index);
@@ -448,7 +490,6 @@ string DivByTwo(string num) {
 
     //целое число
     else if (k == 0) {
-        string result;
 
         int carry = 0;
         int s = num.size();
@@ -485,15 +526,16 @@ string DivByTwo(string num) {
 
         ReverseString(result);
 
-        //удаление ведущих нулей
-        if (result[0] == '0') {
-
-            int i = 0, k = 0;
-            return RemoveZeros(result, i, k);
-
-        }
-        else return result;
     }
+
+    //удаление ведущих нулей
+    if (result[0] == '0') {
+
+        int i = 0, k = 0;
+        return RemoveZeros(result, i, k);
+
+    }
+    else return result;
 }
 
 void CountCommas(int& k, int& index, string num) {
@@ -505,7 +547,7 @@ void CountCommas(int& k, int& index, string num) {
 
 }
 
-// —ложение двух строковых чисел
+// —ложение двух чисел
 string Sum(string a, string b) {
 
     //записываем в переменную a строку максимальной длины
@@ -527,6 +569,21 @@ string Sum(string a, string b) {
         indexB = 0;  //индекс
 
     CountCommas(kB, indexB, b);
+
+    if (kA == 0 or kB == 0) {
+        if (kA == 0) {
+            a += '.';
+            indexA = a.size() - 1;
+            kA = 1;
+            aLen = a.size();
+        }
+        else {
+            b += '.';
+            indexB = b.size() - 1;
+            kB = 1;
+            bLen = b.size();
+        }
+    }
 
     int diffB = bLen - 1 - indexB; //индекс зап€той в строке b с конца
     int diffA = aLen - 1 - indexA; //индекс зап€той в строке a с конца
@@ -631,7 +688,7 @@ string Sum(string a, string b) {
     return result;
 }
 
-//умножение двух чисел
+// ”множение двух чисел
 string Multiply(string a, string b) {
 
     //записываем в переменную a строку максимальной длины
@@ -653,20 +710,33 @@ string Multiply(string a, string b) {
         indexB = 0;  //индекс
 
     CountCommas(kB, indexB, b);
-    if (kA == 0 or kB == 0) {
+
+    if (kA == 0 or kB == 0 or (kA==0 and kB==0)) {
         if (kA == 0) {
             a += '.';
             indexA = a.size() - 1;
             kA = 1;
             aLen = a.size();
         }
-        else {
+        else if(kB==0) {
+            b += '.';
+            indexB = b.size() - 1;
+            kB = 1;
+            bLen = b.size();
+        }
+        else if (kA == 0 and kB==0) {
+            a += '.';
+            indexA = a.size() - 1;
+            kA = 1;
+            aLen = a.size();
+
             b += '.';
             indexB = b.size() - 1;
             kB = 1;
             bLen = b.size();
         }
     }
+
     int diffB = bLen - 1 - indexB; //индекс зап€той в строке b с конца
     int diffA = aLen - 1 - indexA; //индекс зап€той в строке a с конца
 
@@ -729,10 +799,132 @@ string Multiply(string a, string b) {
     }
 }
 
+//string Sqrt(string num, string precision) {
+//    string n, result;
+//
+//    if (num[0] == '-') {
+//        for (int i = 1; i < num.size(); i++) {
+//            n += num[i];
+//            
+//        }
+//        result += '-';
+//    }
+//    else {
+//        n = num;
+//    }
+//    //cout << DivByTwo(n)<<endl;
+//    string p = n;
+//    string b = OneDivBy(n, 10);
+//    string x;
+//    string c = OneDivBy(p, 10);
+//
+//    //for (int i = 0; i < 1200; i++) {
+//    //    //x = Subtract(x, Multiply(Subtract(Multiply(x, x), n), OneDivBy(Multiply("2", x), 10)));
+//    //    x = SubtractFloat(Sum(c, x), Multiply(x, b));
+//    //}
+//
+//
+//    /*while (SubtractFloat(Sum(c, x), Multiply(x, b)) < Sum(precision, x)) {
+//
+//        x = SubtractFloat(Sum(c, x), Multiply(x, b)); cout << x << endl;
+//    }*/
+//    //cout << Sum(OneDivBy("7", 16), "7")<<endl<< Multiply("7", OneDivBy("49", 16)) << endl;
+//    //cout << SubtractFloat(Sum(OneDivBy("7", 10), "7"),Multiply("7", OneDivBy("49", 10))) << endl;
+//    while (LessThanOrEqual(c,Multiply(p,b)) == true) {
+//        /*cout << c << " + " << p << " - " << Multiply(p, b)<<endl;
+//        cout << Sum(c, p) << endl;*/
+//        p = DivByTwo(p);
+//        x = SubtractFloat(Sum(c, p), Multiply(p, b));
+//        
+//        /*cout << "ƒеление: " << p << endl;
+//        cout << "ѕриближение: " << x << endl;
+//        cout << "–азница: " << SubtractFloat(c, Multiply(p, b)) << endl;*/
+//    }
+//    p = DivByTwo(p);
+//    x = SubtractFloat(Sum(c, p), Multiply(p, b));
+//    
+//
+//    //while (LessThanOrEqual(c, Multiply(p,b)) == false) {
+//
+//    //    p = Sum(p, "1");
+//    //    x = SubtractFloat(Sum(c, p), Multiply(p, b));
+//
+//    //}
+//
+//    return x;
+//}
+
+string DivByTen(const string& num) {
+    // ѕроверка на 0
+    if (num == "0") {
+        return "0";
+    }
+
+    // ќпределение знака числа
+    bool isNegative = (num[0] == '-');
+    string absNum = isNegative ? num.substr(1) : num;
+
+    // –аздел€ем на целую и дробную части
+    string integerPart, fractionalPart;
+    size_t dotPos = absNum.find('.');
+    if (dotPos != string::npos) {
+        integerPart = absNum.substr(0, dotPos);
+        fractionalPart = absNum.substr(dotPos + 1);
+    }
+    else {
+        integerPart = absNum;
+        fractionalPart = "";
+    }
+
+    // ƒобавл€ем ноль к дробной части дл€ корректного делени€
+    fractionalPart += '0';
+
+    // ќбрабатываем целую часть
+    string result;
+    int carry = 0;
+    for (char digit : integerPart) {
+        int current = carry * 10 + (digit - '0');
+        result += (current / 10) + '0';
+        carry = current % 10;
+    }
+
+    // ”дал€ем ведущие нули из целой части
+    result.erase(0, result.find_first_not_of('0'));
+    if (result.empty()) {
+        result = "0";
+    }
+
+    // ƒобавл€ем точку дл€ дробной части
+    result += '.';
+
+    // ќбрабатываем дробную часть
+    for (char digit : fractionalPart) {
+        int current = carry * 10 + (digit - '0');
+        result += (current / 10) + '0';
+        carry = current % 10;
+    }
+
+    // ”дал€ем лишние нули в конце дробной части
+    while (result.back() == '0' && result[result.size() - 2] != '.') {
+        result.pop_back();
+    }
+
+    // ≈сли дробна€ часть состоит только из точки, убираем ее
+    if (result.back() == '.') {
+        result.pop_back();
+    }
+
+    // ƒобавл€ем знак дл€ отрицательного числа
+    if (isNegative) {
+        result = '-' + result;
+    }
+
+    return result;
+}
 
 string Sqrt(string num, int precision) {
-    string n, result;
-
+    string n, result="0";
+    
     if (num[0] == '-') {
         for (int i = 1; i < num.size(); i++) {
             n += num[i];
@@ -744,14 +936,90 @@ string Sqrt(string num, int precision) {
         n = num;
     }
 
-    string x = "1.5", b = OneDivBy(n, 10);
-    string c = OneDivBy(x, 10);
+    if (n == "0" or n == "1") return num; // Base cases
 
-    for (int i = 0; i < precision; i++) {
-        x = SubtractFloat(Sum(c, x), Multiply(x, b));
+    string low = "0";
+    string high = n;
+    string mid, square;
+
+    //юинарный поиск дл€ целой части
+    while (LessThanOrEqual(low, high)) {
+        mid = DivByTwo(Sum(low, high)); // mid = (low + high) / 2
+        square = Multiply(mid, mid); // square = mid * mid
+
+        if (square == n) {
+            result = mid;
+            break;
+        }
+        else if (LessThanOrEqual(square, n)) {
+            result = mid; 
+            low = Sum(mid, "1");
+        }
+        else {
+            high = SubtractFloat(mid, "1");
+        }
     }
 
-    cout << x;
+    // добавление дробной части
+    string fraction = "0.";
+    for (int i = 0; i < precision; i++) {
+        fraction += "0";
+    }
+
+    for (int i = 0; i < precision; i++) {
+        string tempResult = Sum(result, fraction);
+        square = Multiply(tempResult, tempResult); // square = tempResult * tempResult
+        //cout << square<<endl;
+        if (LessThanOrEqual(square, n)) {
+            result = tempResult; 
+        }
+        else {
+            fraction = DivByTen(fraction); // Reduce the fraction precision
+        }
+    }
+
+    return result;
+}
+//
+//string Sqrt(string x, string epsilon) {
+//        // ≈сли x равен 0 или 1, результат равен самому x
+//    if (x == "0" || x == "1") {
+//        return x;
+//    }
+//
+//    string left = "0";
+//    string right = x; // ≈сли x < 1, ищем корень в диапазоне [0, 1]
+//    string mid;
+//
+//    while (LessThanOrEqual(SubtractFloat(right, left), epsilon) == false) {
+//        mid = Sum(left, DivByTwo(SubtractFloat(right, left)));
+//        if (LessThanOrEqual(Multiply(mid, mid), x) == false) {
+//            right = mid;
+//        }
+//        else {
+//            left = mid;
+//        }
+//    }
+//
+//    return left; // ѕриближЄнное значение квадратного корн€
+//}
+
+string SqrtNewton(string x, string precision) {
+   
+    if (x == "0" or x == "1") {
+        return x; //  орень из 0 или 1 равен самому числу
+    }
+
+    string y = x; // Ќачальное приближение
+    string prevY;
+
+    do {
+        prevY = y;
+        
+        y = DivByTwo(Sum(y,Multiply(x,OneDivBy(y,10)))); // ‘ормула метода Ќьютона
+    } while (LessThanOrEqual(y,prevY) ? LessThanOrEqual(precision,SubtractFloat(prevY, y)) : LessThanOrEqual(precision, SubtractFloat(y, prevY)));
+
+    return y;
 }
 
 void TestRemoveZeros() {
@@ -774,6 +1042,20 @@ void TestRemoveZeros() {
     result = "000221";
 
     if (RemoveZeros(result, i, k) == "221") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << RemoveZeros(result, i, k) << endl << endl;
+
+    result = "221.00";
+
+    if (RemoveZeros(result, i, k) == "221.") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << RemoveZeros(result, i, k) << endl << endl;
+
+    result = "0221.300";
+
+    if (RemoveZeros(result, i, k) == "221.3") {
         countTests++; cout << "3)" << endl;
     }
     else cout << RemoveZeros(result, i, k) << endl << endl;
@@ -828,16 +1110,16 @@ void TestLessThanOrEqual() {
     }
     else { cout << endl<< LessThanOrEqual(a, b) << endl << endl; };
 
-    a = "10000"; b = "32143";
+    a = "0.49999999987"; b = "0.04081632653";
 
-    if (LessThanOrEqual(a, b) == true) {
+    if (LessThanOrEqual(a, b) == false) {
         countTests++; cout << "2)" << endl;
     }
     else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
 
-    a = "100000"; b = "32143";
+    a = "0.0816327"; b = "0.25";
 
-    if (LessThanOrEqual(a, b) == false) {
+    if (LessThanOrEqual(a, b) == true) {
         countTests++; cout << "3)" << endl;
     }
     else { cout << endl << LessThanOrEqual(a, b) << endl << endl; };
@@ -952,7 +1234,7 @@ void TestSum() {
     }
     else cout << Sum(a, b) << endl << endl;
 
-    a = OneDivBy("49", 10);  b = DivByTwo("49");
+    a = "7.";  b = "0";
 
     if (Sum(a, b) == "7") {
         countTests++; cout << "4)" << endl;
@@ -972,20 +1254,96 @@ void TestMultiply() {
     }
     else cout << Multiply(b, a) << endl << endl;
 
-    a = "49"; b = DivByTwo("45254");
+    a = "7"; b = "0.14285714282";
 
     if (Multiply(a, b) == "433126") {
         countTests++; cout << "2)" << endl;
     }
     else cout << Multiply(b, a) << endl << endl;
 
-    a = "1.5"; b = OneDivBy("49",10);
-    string c = OneDivBy(a, 10);
+    cout << countTests - 1 << endl << endl;
+}
 
-    if (SubtractFloat(Sum(c,a),Multiply(a, b)) == "433126") {
+void TestSqrt() {
+    int countTests = 1;
+
+    string a = "2"; int e = 10;
+
+    if (Sqrt(a,e) == "1.41421") {
+        countTests++; cout << "1)" << endl;
+    }
+    else cout << Sqrt(a,e) << endl << endl;
+
+    a = "4";
+
+    if (Sqrt(a,e) == "2") {
+        countTests++; cout << "2)" << endl;
+    }
+    else cout << Sqrt(a,e) << endl << endl;
+
+    a = "49";
+
+    if (Sqrt(a,e) == "7") {
         countTests++; cout << "3)" << endl;
     }
-    else cout <<SubtractFloat(Sum(c, a), Multiply(a, b)) << endl << endl;
+    else cout << Sqrt(a,e) << endl << endl;
+
+
+    a = "548.8";
+
+    if (Sqrt(a,e) == "74.08104") {
+        countTests++; cout << "4)" << endl;
+    }
+    else cout << Sqrt(a,e) << endl << endl;
+
+    a = "55453465465767546547767078945653075489231974";
+
+    if (Sqrt(a,e) == "7446708364490148780823.58813") {
+        countTests++; cout << "5)" << endl;
+    }
+    else cout << Sqrt(a,e) << endl << endl;
+
+    cout << countTests - 1 << endl << endl;
+}
+
+void TestDivByTen() {
+    int countTests = 1;
+
+    string a = "2";
+
+    //if (Sqrt(a, "0.001") == "1.41421") {
+    //    countTests++; cout << "1)" << endl;
+    //}
+    //else cout << Sqrt(a, "0.001") << endl << endl;
+
+    //a = "4";
+
+    //if (Sqrt(a, "0") == "2") {
+    //    countTests++; cout << "2)" << endl;
+    //}
+    //else cout << Sqrt(a, "0.001") << endl << endl;
+
+    a = "49";
+
+    if (DivByTen(a) == "4") {
+        countTests++; cout << "3)" << endl;
+    }
+    else cout << DivByTen(a) << endl << endl;
+
+
+    a = "-5488";
+
+    if (DivByTen(a) == "-548") {
+        countTests++; cout << "4)" << endl;
+    }
+    else cout << DivByTen(a) << endl << endl;
+
+    a = "55453465465767546547767078945653075489231974";
+
+    if (DivByTen(a) == "5545346546576754654776707894565307548923197") {
+        countTests++; cout << "5)" << endl;
+    }
+    else cout << DivByTen(a) << endl << endl;
 
     cout << countTests - 1 << endl << endl;
 }
