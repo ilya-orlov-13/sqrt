@@ -1,7 +1,7 @@
 #include "Header.h"
 using namespace std;
 
-// Функция для переворота строки
+// РїРµСЂРµРІРѕСЂРѕС‚ СЃС‚СЂРѕРєРё
 void ReverseString(string& str) {
     int n = str.size();
     for (int i = 0; i < n / 2; i++) {
@@ -11,7 +11,7 @@ void ReverseString(string& str) {
     }
 }
 
-//удаление ведущих нулей
+//ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
 string RemoveZeros(string& result, int i, int k) {
 
     while (result[i] == '0') {
@@ -51,7 +51,7 @@ string RemoveZeros(string& result, int i, int k) {
     return res;
 }
 
-// Сравнение строковых чисел
+// Г‘Г°Г ГўГ­ГҐГ­ГЁГҐ Г±ГІГ°Г®ГЄГ®ГўГ»Гµ Г·ГЁГ±ГҐГ«
 bool LessThanOrEqual(string a, string b) {
     int pA = -1, pB = -1;
 
@@ -69,7 +69,7 @@ bool LessThanOrEqual(string a, string b) {
         }
     }
 
-    //если точки нет, добавляем в конец строки
+    //ГҐГ±Г«ГЁ ГІГ®Г·ГЄГЁ Г­ГҐГІ, Г¤Г®ГЎГ ГўГ«ГїГҐГ¬ Гў ГЄГ®Г­ГҐГ¶ Г±ГІГ°Г®ГЄГЁ
     if (pA == -1) {
         pA = a.size();
         a += ".0";
@@ -86,7 +86,7 @@ bool LessThanOrEqual(string a, string b) {
 
     int i = 0;
     if (pA == pB) {
-        //сравнение целых частей
+        //Г±Г°Г ГўГ­ГҐГ­ГЁГҐ Г¶ГҐГ«Г»Гµ Г·Г Г±ГІГҐГ©
         while (i < pA and i < pB) {
             if (a[i] < b[i]) return true; //a<b
             if (a[i] > b[i]) return false; //a>b
@@ -97,7 +97,7 @@ bool LessThanOrEqual(string a, string b) {
     if ((a.size() - 1 - i) > (b.size() - 1 - i)) return true; //a<b
     else if ((a.size() - 1 - i) < (b.size() - 1 - i)) return false; //a>b
     else {
-        //сравнение дробных частей
+        //Г±Г°Г ГўГ­ГҐГ­ГЁГҐ Г¤Г°Г®ГЎГ­Г»Гµ Г·Г Г±ГІГҐГ©
         i = pA + 1;
         while (i < a.size() and i < b.size()) {
             if (a[i] < b[i]) return true; //a<b
@@ -109,21 +109,21 @@ bool LessThanOrEqual(string a, string b) {
 
 }
 
-// Функция для вычитания двух вещественных чисел
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГўГ»Г·ГЁГІГ Г­ГЁГї Г¤ГўГіГµ ГўГҐГ№ГҐГ±ГІГўГҐГ­Г­Г»Гµ Г·ГЁГ±ГҐГ«
 string SubtractFloat(string a, string b) {
     if (LessThanOrEqual(b, a)) {
 
         int aLen = a.length(), bLen = b.length();
 
-        //запятые в строке a
-        int kA = 0,      //количество запятых
-            indexA = 0;  //индекс
+        //Г§Г ГЇГїГІГ»ГҐ Гў Г±ГІГ°Г®ГЄГҐ a
+        int kA = 0,      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+            indexA = 0;  //ГЁГ­Г¤ГҐГЄГ±
 
         CountCommas(kA, indexA, a);
 
-        //запятые в строке b
-        int kB = 0,      //количество запятых
-            indexB = 0;  //индекс
+        //Г§Г ГЇГїГІГ»ГҐ Гў Г±ГІГ°Г®ГЄГҐ b
+        int kB = 0,      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+            indexB = 0;  //ГЁГ­Г¤ГҐГЄГ±
 
         CountCommas(kB, indexB, b);
 
@@ -142,12 +142,12 @@ string SubtractFloat(string a, string b) {
             }
         }
 
-        int diffB = bLen - 1 - indexB; //индекс запятой в строке b с конца
-        int diffA = aLen - 1 - indexA; //индекс запятой в строке a с конца
+        int diffB = bLen - 1 - indexB; //ГЁГ­Г¤ГҐГЄГ± Г§Г ГЇГїГІГ®Г© Гў Г±ГІГ°Г®ГЄГҐ b Г± ГЄГ®Г­Г¶Г 
+        int diffA = aLen - 1 - indexA; //ГЁГ­Г¤ГҐГЄГ± Г§Г ГЇГїГІГ®Г© Гў Г±ГІГ°Г®ГЄГҐ a Г± ГЄГ®Г­Г¶Г 
 
-        if (kA > 1 or kB > 1) return "Некорректный ввод";
+        if (kA > 1 or kB > 1) return "ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г»Г© ГўГўГ®Г¤";
 
-        //вещественное число
+        //ГўГҐГ№ГҐГ±ГІГўГҐГ­Г­Г®ГҐ Г·ГЁГ±Г«Г®
         else if (kA == 1 and kB == 1) {
 
             int iA = indexA; kA = 0;
@@ -167,7 +167,7 @@ string SubtractFloat(string a, string b) {
                     //cout << iA << ' ' << iB << endl;
                 }
             }
-            //количесвто нулей, которые нужно добавить в строку с меньшим индексом
+            //ГЄГ®Г«ГЁГ·ГҐГ±ГўГІГ® Г­ГіГ«ГҐГ©, ГЄГ®ГІГ®Г°Г»ГҐ Г­ГіГ¦Г­Г® Г¤Г®ГЎГ ГўГЁГІГј Гў Г±ГІГ°Г®ГЄГі Г± Г¬ГҐГ­ГјГёГЁГ¬ ГЁГ­Г¤ГҐГЄГ±Г®Г¬
 
             while (a.size() != b.size()) {
                 if (diffA <= diffB) a += '0';
@@ -190,12 +190,12 @@ string SubtractFloat(string a, string b) {
         int carry = 0;
 
         for (int i = 0; i < a.size(); i++) {
-            //цифры
+            //Г¶ГЁГґГ°Г»
             int digitA = a[a.size() - 1 - i] - '0';
             int digitB = (i < b.size()) ? (b[b.size() - 1 - i] - '0') : 0;
-            //вычитание из текущей цифры первого числа текущей цифры второго и переноса
+            //ГўГ»Г·ГЁГІГ Г­ГЁГҐ ГЁГ§ ГІГҐГЄГіГ№ГҐГ© Г¶ГЁГґГ°Г» ГЇГҐГ°ГўГ®ГЈГ® Г·ГЁГ±Г«Г  ГІГҐГЄГіГ№ГҐГ© Г¶ГЁГґГ°Г» ГўГІГ®Г°Г®ГЈГ® ГЁ ГЇГҐГ°ГҐГ­Г®Г±Г 
             int diff = digitA - digitB - carry;
-            //перенос
+            //ГЇГҐГ°ГҐГ­Г®Г±
             if (diff < 0) {
                 diff += 10;
                 carry = 1;
@@ -203,7 +203,7 @@ string SubtractFloat(string a, string b) {
             else {
                 carry = 0;
             }
-            //добавление цифры в результат
+            //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г¶ГЁГґГ°Г» Гў Г°ГҐГ§ГіГ«ГјГІГ ГІ
             result[result.size() - 1 - i] = diff + '0';
         }
 
@@ -213,10 +213,10 @@ string SubtractFloat(string a, string b) {
             int index = diffA >= diffB ? diffA : diffB;
             //cout << index<<endl;
 
-            //переворот строки и добавление точки
+            //ГЇГҐГ°ГҐГўГ®Г°Г®ГІ Г±ГІГ°Г®ГЄГЁ ГЁ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГІГ®Г·ГЄГЁ
             ReverseString(result);
             result = '.' + result;
-            //сдвиг запятой на индекс, в котором она была в исходной строке
+            //Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г© Г­Г  ГЁГ­Г¤ГҐГЄГ±, Гў ГЄГ®ГІГ®Г°Г®Г¬ Г®Г­Г  ГЎГ»Г«Г  Гў ГЁГ±ГµГ®Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ
             for (int i = 0; i < index + 1; i++) {
                 char temp = result[i];
                 result[i] = result[i + 1];
@@ -226,7 +226,7 @@ string SubtractFloat(string a, string b) {
             ReverseString(result);
             result = Del(result);
 
-            //удаление ведущих нулей
+            //ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
             if (result[0] == '0') {
                 int i = 0, k = 0;
                 return RemoveZeros(result, i, k);
@@ -240,7 +240,7 @@ string SubtractFloat(string a, string b) {
     return "0";
 }
 
-// Функция для вычитания двух целых чисел, для функций деления
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГўГ»Г·ГЁГІГ Г­ГЁГї Г¤ГўГіГµ Г¶ГҐГ«Г»Гµ Г·ГЁГ±ГҐГ«, Г¤Г«Гї ГґГіГ­ГЄГ¶ГЁГ© Г¤ГҐГ«ГҐГ­ГЁГї
 string Subtract(string a, string b) {
     if (LessThanOrEqual(b, a)) {
 
@@ -249,12 +249,12 @@ string Subtract(string a, string b) {
         int carry = 0;
 
         for (int i = 0; i < a.size(); i++) {
-            //цифры
+            //Г¶ГЁГґГ°Г»
             int digitA = a[a.size() - 1 - i] - '0';
             int digitB = (i < b.size()) ? (b[b.size() - 1 - i] - '0') : 0;
-            //вычитание из текущей цифры первого числа текущей цифры второго и переноса
+            //ГўГ»Г·ГЁГІГ Г­ГЁГҐ ГЁГ§ ГІГҐГЄГіГ№ГҐГ© Г¶ГЁГґГ°Г» ГЇГҐГ°ГўГ®ГЈГ® Г·ГЁГ±Г«Г  ГІГҐГЄГіГ№ГҐГ© Г¶ГЁГґГ°Г» ГўГІГ®Г°Г®ГЈГ® ГЁ ГЇГҐГ°ГҐГ­Г®Г±Г 
             int diff = digitA - digitB - carry;
-            //перенос
+            //ГЇГҐГ°ГҐГ­Г®Г±
             if (diff < 0) {
                 diff += 10;
                 carry = 1;
@@ -262,12 +262,12 @@ string Subtract(string a, string b) {
             else {
                 carry = 0;
             }
-            //добавление цифры в результат
+            //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г¶ГЁГґГ°Г» Гў Г°ГҐГ§ГіГ«ГјГІГ ГІ
             result[result.size() - 1 - i] = diff + '0';
         }
 
 
-            //удаление ведущих нулей
+            //ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
             if (result[0] == '0') {
                 int i = 0, k = 0;
                 return RemoveZeros(result, i, k);
@@ -280,7 +280,7 @@ string Subtract(string a, string b) {
     return "0";
 }
 
-//удаление запятой
+//ГіГ¤Г Г«ГҐГ­ГЁГҐ Г§Г ГЇГїГІГ®Г©
 string Del(string num) {
     string n(num.size() - 1, '0');
     for (int i = 0; i < num.size() - 1; i++) {
@@ -289,8 +289,8 @@ string Del(string num) {
     return n;
 }
 
-//сдвиг запятой без добавления нулей в строку с результатом
-//для функции деления на 2
+//Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г© ГЎГҐГ§ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї Г­ГіГ«ГҐГ© Гў Г±ГІГ°Г®ГЄГі Г± Г°ГҐГ§ГіГ«ГјГІГ ГІГ®Г¬
+//Г¤Г«Гї ГґГіГ­ГЄГ¶ГЁГЁ Г¤ГҐГ«ГҐГ­ГЁГї Г­Г  2
 void ShiftForDBT(string& num, int i) {
     while (i != num.size() - 1) {
         char temp = num[i];
@@ -300,7 +300,7 @@ void ShiftForDBT(string& num, int i) {
     }
 }
 
-//сдвиг запятой с добавлением нулей в строку с результатом
+//Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г© Г± Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐГ¬ Г­ГіГ«ГҐГ© Гў Г±ГІГ°Г®ГЄГі Г± Г°ГҐГ§ГіГ«ГјГІГ ГІГ®Г¬
 void Shift(string& num, string& n, int& i) {
     while (i != num.size() - 1) {
         char temp = num[i];
@@ -312,13 +312,13 @@ void Shift(string& num, string& n, int& i) {
 }
 
 
-// Деление 1 на число
+// Г„ГҐГ«ГҐГ­ГЁГҐ 1 Г­Г  Г·ГЁГ±Г«Г®
 string OneDivBy(string num, int precision) {
     string one = "1";
     string result = ".";
 
-    int k = 0,    //количество запятых
-        index = 0;//индекс
+    int k = 0,    //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+        index = 0;//ГЁГ­Г¤ГҐГЄГ±
 
     for (int i = 0; i < num.size(); i++) {
         if (num[i] == '.' or num[i] == ',') {
@@ -326,10 +326,10 @@ string OneDivBy(string num, int precision) {
         }
     }
 
-    if (k > 1) return "Некорректный ввод";
+    if (k > 1) return "ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г»Г© ГўГўГ®Г¤";
 
     else if (num[index] == '.' or num[index] == ',') {
-        //сдвиг запятой
+        //Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г©
         while (index != num.size() - 1) {
             char temp = num[index];
             num[index] = num[index + 1];
@@ -340,12 +340,12 @@ string OneDivBy(string num, int precision) {
             //cout << num << ' ' << one << endl;
         }
 
-        //удаление запятой
+        //ГіГ¤Г Г«ГҐГ­ГЁГҐ Г§Г ГЇГїГІГ®Г©
         string n = Del(num);
 
         //cout << endl << n << endl;
 
-        //добавление нулей в делимое и частное
+        //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г­ГіГ«ГҐГ© Гў Г¤ГҐГ«ГЁГ¬Г®ГҐ ГЁ Г·Г Г±ГІГ­Г®ГҐ
         while (Subtract(one, n) == "0") {
             one += '0'; result += '0';
             //cout << n << ' ' << one << endl;
@@ -355,7 +355,7 @@ string OneDivBy(string num, int precision) {
         string subtr = n;
 
         for (int p = 0; p < precision; p++) {
-            // Целая часть текущей итерации
+            // Г–ГҐГ«Г Гї Г·Г Г±ГІГј ГІГҐГЄГіГ№ГҐГ© ГЁГІГҐГ°Г Г¶ГЁГЁ
             int i = 0;
             while (LessThanOrEqual(subtr, one)) {
                 one = Subtract(one, subtr);
@@ -365,12 +365,12 @@ string OneDivBy(string num, int precision) {
 
             result += (i + '0');
 
-            // Добавляем "0" к делимому для следующей итерации
+            // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ "0" ГЄ Г¤ГҐГ«ГЁГ¬Г®Г¬Гі Г¤Г«Гї Г±Г«ГҐГ¤ГіГѕГ№ГҐГ© ГЁГІГҐГ°Г Г¶ГЁГЁ
             one += '0';
         }
 
 
-        // Если точка осталась в конце, убираем её
+        // Г…Г±Г«ГЁ ГІГ®Г·ГЄГ  Г®Г±ГІГ Г«Г Г±Гј Гў ГЄГ®Г­Г¶ГҐ, ГіГЎГЁГ°Г ГҐГ¬ ГҐВё
         if (result.back() == '.') {
             result = Del(result);
         }
@@ -379,7 +379,7 @@ string OneDivBy(string num, int precision) {
     else if (k == 0) {
         string n = num;
 
-        //добавление нулей в делимое и частное
+        //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г­ГіГ«ГҐГ© Гў Г¤ГҐГ«ГЁГ¬Г®ГҐ ГЁ Г·Г Г±ГІГ­Г®ГҐ
         while (Subtract(one, n) == "0") {
             one += '0'; result += '0';
             //cout << n << ' ' << one << endl;
@@ -389,7 +389,7 @@ string OneDivBy(string num, int precision) {
         string subtr = n;
 
         for (int p = 0; p < precision; p++) {
-            // Целая часть текущей итерации
+            // Г–ГҐГ«Г Гї Г·Г Г±ГІГј ГІГҐГЄГіГ№ГҐГ© ГЁГІГҐГ°Г Г¶ГЁГЁ
             int i = 0;
             while (LessThanOrEqual(subtr, one)) {
                 one = Subtract(one, subtr);
@@ -399,17 +399,17 @@ string OneDivBy(string num, int precision) {
 
             result += (i + '0');
 
-            // Добавляем "0" к делимому для следующей итерации
+            // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ "0" ГЄ Г¤ГҐГ«ГЁГ¬Г®Г¬Гі Г¤Г«Гї Г±Г«ГҐГ¤ГіГѕГ№ГҐГ© ГЁГІГҐГ°Г Г¶ГЁГЁ
             one += '0';
         }
     }
-    //сдвиг запятой
+    //Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г©
     char temp = result[0];
     result[0] = result[1];
     result[1] = temp;
 
 
-    //удаление ведущих нулей
+    //ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
     if (result[0] == '0') {
         int i = 0, k = 0;
         return RemoveZeros(result, i, k);
@@ -417,12 +417,12 @@ string OneDivBy(string num, int precision) {
     else return result;
 }
 
-// Деление на 2
+// Г„ГҐГ«ГҐГ­ГЁГҐ Г­Г  2
 string DivByTwo(string num) {
 
     string result;
-    int k = 0,      //количество запятых
-        index = 0;  //индекс
+    int k = 0,      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+        index = 0;  //ГЁГ­Г¤ГҐГЄГ±
 
     for (int i = 0; i < num.size(); i++) {
         if (num[i] == '.' or num[i] == ',') {
@@ -430,47 +430,47 @@ string DivByTwo(string num) {
         }
     }
 
-    if (k > 1) return "Некорректный ввод";
+    if (k > 1) return "ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г»Г© ГўГўГ®Г¤";
 
-    //вещественное число
+    //ГўГҐГ№ГҐГ±ГІГўГҐГ­Г­Г®ГҐ Г·ГЁГ±Г«Г®
     else if (k == 1) {
 
 
-        //сдвиг запятой в конец строки
+        //Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г© Гў ГЄГ®Г­ГҐГ¶ Г±ГІГ°Г®ГЄГЁ
         ShiftForDBT(num, index);
-        //удаление запятой из строки
+        //ГіГ¤Г Г«ГҐГ­ГЁГҐ Г§Г ГЇГїГІГ®Г© ГЁГ§ Г±ГІГ°Г®ГЄГЁ
         num = Del(num);
 
-        //перенос
+        //ГЇГҐГ°ГҐГ­Г®Г±
         int carry = 0;
         int s = num.size();
         int indexP = 0, c = 0;
 
-        // Деление
-        //цикл с s+1 итерацией для возможной дробной части
+        // Г„ГҐГ«ГҐГ­ГЁГҐ
+        //Г¶ГЁГЄГ« Г± s+1 ГЁГІГҐГ°Г Г¶ГЁГҐГ© Г¤Г«Гї ГўГ®Г§Г¬Г®Г¦Г­Г®Г© Г¤Г°Г®ГЎГ­Г®Г© Г·Г Г±ГІГЁ
         for (int i = 0; i < s + 1; i++) {
             int curr = 0;
-            //если цифра есть в исходной строке, текущий перенос
-            //складывается из остатка от деления на 2 предыдущего переноса и цифры в исходной строке
+            //ГҐГ±Г«ГЁ Г¶ГЁГґГ°Г  ГҐГ±ГІГј Гў ГЁГ±ГµГ®Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ, ГІГҐГЄГіГ№ГЁГ© ГЇГҐГ°ГҐГ­Г®Г±
+            //Г±ГЄГ«Г Г¤Г»ГўГ ГҐГІГ±Гї ГЁГ§ Г®Г±ГІГ ГІГЄГ  Г®ГІ Г¤ГҐГ«ГҐГ­ГЁГї Г­Г  2 ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГҐГЈГ® ГЇГҐГ°ГҐГ­Г®Г±Г  ГЁ Г¶ГЁГґГ°Г» Гў ГЁГ±ГµГ®Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ
             if ((num[i] - '0') > 0) {
                 curr = carry * 10 + (num[i] - '0');
             }
-            //иначе в текущий перенос справа добавляется 0
+            //ГЁГ­Г Г·ГҐ Гў ГІГҐГЄГіГ№ГЁГ© ГЇГҐГ°ГҐГ­Г®Г± Г±ГЇГ°Г ГўГ  Г¤Г®ГЎГ ГўГ«ГїГҐГІГ±Гї 0
             else {
                 curr = carry * 10;/*
                 if(carry+'0'>'0') c++;
                 indexP = i;*/
             }
-            //добавленме цифры в строку с результатом
+            //Г¤Г®ГЎГ ГўГ«ГҐГ­Г¬ГҐ Г¶ГЁГґГ°Г» Гў Г±ГІГ°Г®ГЄГі Г± Г°ГҐГ§ГіГ«ГјГІГ ГІГ®Г¬
             result += (curr / 2) + '0';
             carry = curr % 2;
 
         }
 
-        //переворот строки и добавление точки
+        //ГЇГҐГ°ГҐГўГ®Г°Г®ГІ Г±ГІГ°Г®ГЄГЁ ГЁ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГІГ®Г·ГЄГЁ
         ReverseString(result);
         result = '.' + result;
-        //сдвиг запятой на индекс, в котором она была в исходной строке
+        //Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г© Г­Г  ГЁГ­Г¤ГҐГЄГ±, Гў ГЄГ®ГІГ®Г°Г®Г¬ Г®Г­Г  ГЎГ»Г«Г  Гў ГЁГ±ГµГ®Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ
         for (int i = 0; i < result.size() - 1 - index; i++) {
             char temp = result[i];
             result[i] = result[i + 1];
@@ -479,7 +479,7 @@ string DivByTwo(string num) {
 
         ReverseString(result);
 
-        //удаление ведущих нулей
+        //ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
         if (result[0] == '0') {
             int i = 0, k = 0;
             return RemoveZeros(result, i, k);
@@ -488,15 +488,15 @@ string DivByTwo(string num) {
 
     }
 
-    //целое число
+    //Г¶ГҐГ«Г®ГҐ Г·ГЁГ±Г«Г®
     else if (k == 0) {
 
         int carry = 0;
         int s = num.size();
-        int indexP = 0, //индекс запятой
-            c = 0;      //количество чисел после запятой
+        int indexP = 0, //ГЁГ­Г¤ГҐГЄГ± Г§Г ГЇГїГІГ®Г©
+            c = 0;      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г·ГЁГ±ГҐГ« ГЇГ®Г±Г«ГҐ Г§Г ГЇГїГІГ®Г©
 
-        //деление
+        //Г¤ГҐГ«ГҐГ­ГЁГҐ
         for (int i = 0; i < s + 1; i++) {
             int curr = 0;
             if ((num[i] - '0') > 0) {
@@ -514,7 +514,7 @@ string DivByTwo(string num) {
 
         }
 
-        //добавление запятой
+        //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г§Г ГЇГїГІГ®Г©
         ReverseString(result);
         result = '.' + result;
 
@@ -528,7 +528,7 @@ string DivByTwo(string num) {
 
     }
 
-    //удаление ведущих нулей
+    //ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
     if (result[0] == '0') {
 
         int i = 0, k = 0;
@@ -547,10 +547,10 @@ void CountCommas(int& k, int& index, string num) {
 
 }
 
-// Сложение двух чисел
+// Г‘Г«Г®Г¦ГҐГ­ГЁГҐ Г¤ГўГіГµ Г·ГЁГ±ГҐГ«
 string Sum(string a, string b) {
 
-    //записываем в переменную a строку максимальной длины
+    //Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў ГЇГҐГ°ГҐГ¬ГҐГ­Г­ГіГѕ a Г±ГІГ°Г®ГЄГі Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®Г© Г¤Г«ГЁГ­Г»
     if (a.length() < b.length()) {
         string temp = a;
         a = b;
@@ -558,15 +558,15 @@ string Sum(string a, string b) {
     }
     int aLen = a.length(), bLen = b.length();
 
-    //запятые в строке a
-    int kA = 0,      //количество запятых
-        indexA = 0;  //индекс
+    //Г§Г ГЇГїГІГ»ГҐ Гў Г±ГІГ°Г®ГЄГҐ a
+    int kA = 0,      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+        indexA = 0;  //ГЁГ­Г¤ГҐГЄГ±
 
     CountCommas(kA, indexA, a);
 
-    //запятые в строке b
-    int kB = 0,      //количество запятых
-        indexB = 0;  //индекс
+    //Г§Г ГЇГїГІГ»ГҐ Гў Г±ГІГ°Г®ГЄГҐ b
+    int kB = 0,      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+        indexB = 0;  //ГЁГ­Г¤ГҐГЄГ±
 
     CountCommas(kB, indexB, b);
 
@@ -585,12 +585,12 @@ string Sum(string a, string b) {
         }
     }
 
-    int diffB = bLen - 1 - indexB; //индекс запятой в строке b с конца
-    int diffA = aLen - 1 - indexA; //индекс запятой в строке a с конца
+    int diffB = bLen - 1 - indexB; //ГЁГ­Г¤ГҐГЄГ± Г§Г ГЇГїГІГ®Г© Гў Г±ГІГ°Г®ГЄГҐ b Г± ГЄГ®Г­Г¶Г 
+    int diffA = aLen - 1 - indexA; //ГЁГ­Г¤ГҐГЄГ± Г§Г ГЇГїГІГ®Г© Гў Г±ГІГ°Г®ГЄГҐ a Г± ГЄГ®Г­Г¶Г 
 
-    if (kA > 1 or kB > 1) return "Некорректный ввод";
+    if (kA > 1 or kB > 1) return "ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г»Г© ГўГўГ®Г¤";
     
-    //вещественное число
+    //ГўГҐГ№ГҐГ±ГІГўГҐГ­Г­Г®ГҐ Г·ГЁГ±Г«Г®
     else if (kA == 1 and kB == 1) {
 
         int iA = indexA; kA = 0;
@@ -610,7 +610,7 @@ string Sum(string a, string b) {
                 //cout << iA << ' ' << iB << endl;
             }
         }
-        //количесвто нулей, которые нужно добавить в строку с меньшим индексом
+        //ГЄГ®Г«ГЁГ·ГҐГ±ГўГІГ® Г­ГіГ«ГҐГ©, ГЄГ®ГІГ®Г°Г»ГҐ Г­ГіГ¦Г­Г® Г¤Г®ГЎГ ГўГЁГІГј Гў Г±ГІГ°Г®ГЄГі Г± Г¬ГҐГ­ГјГёГЁГ¬ ГЁГ­Г¤ГҐГЄГ±Г®Г¬
         
         while (a.size() != b.size()) {
             if (diffA <= diffB) a += '0';
@@ -633,27 +633,27 @@ string Sum(string a, string b) {
     int carry = 0;
 
     for (int i = 0; i < aLen; i++) {
-        // Числа
+        // Г—ГЁГ±Г«Г 
 
-        // для первого слагаемого берем цифры с конца строки a
+        // Г¤Г«Гї ГЇГҐГ°ГўГ®ГЈГ® Г±Г«Г ГЈГ ГҐГ¬Г®ГЈГ® ГЎГҐГ°ГҐГ¬ Г¶ГЁГґГ°Г» Г± ГЄГ®Г­Г¶Г  Г±ГІГ°Г®ГЄГЁ a
         int digitA = a[a.size() - 1 - i] - '0';
         /*
-        для второго слагаемого берем цифры с конца строки b,
-        если индекс не выходит за пределы строки b,
-        иначе присваеваем второму слагаемому 0
+        Г¤Г«Гї ГўГІГ®Г°Г®ГЈГ® Г±Г«Г ГЈГ ГҐГ¬Г®ГЈГ® ГЎГҐГ°ГҐГ¬ Г¶ГЁГґГ°Г» Г± ГЄГ®Г­Г¶Г  Г±ГІГ°Г®ГЄГЁ b,
+        ГҐГ±Г«ГЁ ГЁГ­Г¤ГҐГЄГ± Г­ГҐ ГўГ»ГµГ®Г¤ГЁГІ Г§Г  ГЇГ°ГҐГ¤ГҐГ«Г» Г±ГІГ°Г®ГЄГЁ b,
+        ГЁГ­Г Г·ГҐ ГЇГ°ГЁГ±ГўГ ГҐГўГ ГҐГ¬ ГўГІГ®Г°Г®Г¬Гі Г±Г«Г ГЈГ ГҐГ¬Г®Г¬Гі 0
         */
         int digitB = (i < b.size()) ? (b[b.size() - 1 - i] - '0') : 0;
 
-        //сумма чисел и переноса
+        //Г±ГіГ¬Г¬Г  Г·ГЁГ±ГҐГ« ГЁ ГЇГҐГ°ГҐГ­Г®Г±Г 
         int sum = digitA + digitB + carry;
-        //последняя цифра полученной суммы
+        //ГЇГ®Г±Г«ГҐГ¤Г­ГїГї Г¶ГЁГґГ°Г  ГЇГ®Г«ГіГ·ГҐГ­Г­Г®Г© Г±ГіГ¬Г¬Г»
         char t = (sum % 10) + '0';
-        //добавление в резльтирующую строку этой цифры
+        //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Гў Г°ГҐГ§Г«ГјГІГЁГ°ГіГѕГ№ГіГѕ Г±ГІГ°Г®ГЄГі ГЅГІГ®Г© Г¶ГЁГґГ°Г»
         result = t + result;
-        //первая цифра полученной суммы (перенос)
+        //ГЇГҐГ°ГўГ Гї Г¶ГЁГґГ°Г  ГЇГ®Г«ГіГ·ГҐГ­Г­Г®Г© Г±ГіГ¬Г¬Г» (ГЇГҐГ°ГҐГ­Г®Г±)
         carry = sum / 10;
     }
-    //добавление последнего переноса 
+    //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГЇГ®Г±Г«ГҐГ¤Г­ГҐГЈГ® ГЇГҐГ°ГҐГ­Г®Г±Г  
     if (carry) {
         char c = carry + '0';
         result = c + result;
@@ -664,10 +664,10 @@ string Sum(string a, string b) {
         int index = diffA >= diffB ? diffA : diffB;
         //cout << index<<endl;
 
-        //переворот строки и добавление точки
+        //ГЇГҐГ°ГҐГўГ®Г°Г®ГІ Г±ГІГ°Г®ГЄГЁ ГЁ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГІГ®Г·ГЄГЁ
         ReverseString(result);
         result = '.' + result;
-        //сдвиг запятой на индекс, в котором она была в исходной строке
+        //Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г© Г­Г  ГЁГ­Г¤ГҐГЄГ±, Гў ГЄГ®ГІГ®Г°Г®Г¬ Г®Г­Г  ГЎГ»Г«Г  Гў ГЁГ±ГµГ®Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ
         for (int i = 0; i < index + 1; i++) {
             char temp = result[i];
             result[i] = result[i + 1];
@@ -677,7 +677,7 @@ string Sum(string a, string b) {
         ReverseString(result);
         result = Del(result);
 
-        //удаление ведущих нулей
+        //ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
         if (result[0] == '0') {
             int i = 0, k = 0;
             return RemoveZeros(result, i, k);
@@ -688,10 +688,10 @@ string Sum(string a, string b) {
     return result;
 }
 
-// Умножение двух чисел
+// Г“Г¬Г­Г®Г¦ГҐГ­ГЁГҐ Г¤ГўГіГµ Г·ГЁГ±ГҐГ«
 string Multiply(string a, string b) {
 
-    //записываем в переменную a строку максимальной длины
+    //Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў ГЇГҐГ°ГҐГ¬ГҐГ­Г­ГіГѕ a Г±ГІГ°Г®ГЄГі Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®Г© Г¤Г«ГЁГ­Г»
     if (a.length() < b.length()) {
         string temp = a;
         a = b;
@@ -699,15 +699,15 @@ string Multiply(string a, string b) {
     }
     int aLen = a.length(), bLen = b.length();
 
-    //запятые в строке a
-    int kA = 0,      //количество запятых
-        indexA = 0;  //индекс
+    //Г§Г ГЇГїГІГ»ГҐ Гў Г±ГІГ°Г®ГЄГҐ a
+    int kA = 0,      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+        indexA = 0;  //ГЁГ­Г¤ГҐГЄГ±
 
     CountCommas(kA, indexA, a);
 
-    //запятые в строке b
-    int kB = 0,      //количество запятых
-        indexB = 0;  //индекс
+    //Г§Г ГЇГїГІГ»ГҐ Гў Г±ГІГ°Г®ГЄГҐ b
+    int kB = 0,      //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГїГІГ»Гµ
+        indexB = 0;  //ГЁГ­Г¤ГҐГЄГ±
 
     CountCommas(kB, indexB, b);
 
@@ -737,12 +737,12 @@ string Multiply(string a, string b) {
         }
     }
 
-    int diffB = bLen - 1 - indexB; //индекс запятой в строке b с конца
-    int diffA = aLen - 1 - indexA; //индекс запятой в строке a с конца
+    int diffB = bLen - 1 - indexB; //ГЁГ­Г¤ГҐГЄГ± Г§Г ГЇГїГІГ®Г© Гў Г±ГІГ°Г®ГЄГҐ b Г± ГЄГ®Г­Г¶Г 
+    int diffA = aLen - 1 - indexA; //ГЁГ­Г¤ГҐГЄГ± Г§Г ГЇГїГІГ®Г© Гў Г±ГІГ°Г®ГЄГҐ a Г± ГЄГ®Г­Г¶Г 
 
-    if (kA > 1 or kB > 1) return "Некорректный ввод";
+    if (kA > 1 or kB > 1) return "ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г»Г© ГўГўГ®Г¤";
 
-    //вещественное число
+    //ГўГҐГ№ГҐГ±ГІГўГҐГ­Г­Г®ГҐ Г·ГЁГ±Г«Г®
     else if (kA == 1 and kB == 1) {
 
         //cout << indexA << ' ' << iA << endl;
@@ -762,9 +762,9 @@ string Multiply(string a, string b) {
     for (int i = len1 - 2; i >= 0; i--) {
         int carry = 0;
         for (int j = len2 - 2; j >= 0; j--) {
-            //сумма произведения двух текущих цифр, 
-            //цифры из текущего разряда строки с произведением предыдущей цифры из первого числа, второго числа
-            //и переноса
+            //Г±ГіГ¬Г¬Г  ГЇГ°Г®ГЁГ§ГўГҐГ¤ГҐГ­ГЁГї Г¤ГўГіГµ ГІГҐГЄГіГ№ГЁГµ Г¶ГЁГґГ°, 
+            //Г¶ГЁГґГ°Г» ГЁГ§ ГІГҐГЄГіГ№ГҐГЈГ® Г°Г Г§Г°ГїГ¤Г  Г±ГІГ°Г®ГЄГЁ Г± ГЇГ°Г®ГЁГ§ГўГҐГ¤ГҐГ­ГЁГҐГ¬ ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГҐГ© Г¶ГЁГґГ°Г» ГЁГ§ ГЇГҐГ°ГўГ®ГЈГ® Г·ГЁГ±Г«Г , ГўГІГ®Г°Г®ГЈГ® Г·ГЁГ±Г«Г 
+            //ГЁ ГЇГҐГ°ГҐГ­Г®Г±Г 
             int mul = (a[i] - '0') * (b[j] - '0') + (result[i + j + 1] - '0') + carry;
             carry = mul / 10;
             result[i + j + 1] = (mul % 10) + '0';
@@ -777,10 +777,10 @@ string Multiply(string a, string b) {
         int index = diffA + diffB + 1;
         //cout << index<<endl;
 
-        //переворот строки и добавление точки
+        //ГЇГҐГ°ГҐГўГ®Г°Г®ГІ Г±ГІГ°Г®ГЄГЁ ГЁ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГІГ®Г·ГЄГЁ
         ReverseString(result);
         result = '.' + result;
-        //сдвиг запятой на индекс, в котором она была в исходной строке
+        //Г±Г¤ГўГЁГЈ Г§Г ГЇГїГІГ®Г© Г­Г  ГЁГ­Г¤ГҐГЄГ±, Гў ГЄГ®ГІГ®Г°Г®Г¬ Г®Г­Г  ГЎГ»Г«Г  Гў ГЁГ±ГµГ®Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ
         for (int i = 0; i < index + 1; i++) {
             char temp = result[i];
             result[i] = result[i + 1];
@@ -790,7 +790,7 @@ string Multiply(string a, string b) {
         ReverseString(result);
         result = Del(result);
 
-        //удаление ведущих нулей
+        //ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ¤ГіГ№ГЁГµ Г­ГіГ«ГҐГ©
         if (result[0] == '0') {
             int i = 0, k = 0;
             return RemoveZeros(result, i, k);
@@ -836,9 +836,9 @@ string Multiply(string a, string b) {
 //        p = DivByTwo(p);
 //        x = SubtractFloat(Sum(c, p), Multiply(p, b));
 //        
-//        /*cout << "Деление: " << p << endl;
-//        cout << "Приближение: " << x << endl;
-//        cout << "Разница: " << SubtractFloat(c, Multiply(p, b)) << endl;*/
+//        /*cout << "Г„ГҐГ«ГҐГ­ГЁГҐ: " << p << endl;
+//        cout << "ГЏГ°ГЁГЎГ«ГЁГ¦ГҐГ­ГЁГҐ: " << x << endl;
+//        cout << "ГђГ Г§Г­ГЁГ¶Г : " << SubtractFloat(c, Multiply(p, b)) << endl;*/
 //    }
 //    p = DivByTwo(p);
 //    x = SubtractFloat(Sum(c, p), Multiply(p, b));
@@ -855,16 +855,16 @@ string Multiply(string a, string b) {
 //}
 
 string DivByTen(const string& num) {
-    // Проверка на 0
+    // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  0
     if (num == "0") {
         return "0";
     }
 
-    // Определение знака числа
+    // ГЋГЇГ°ГҐГ¤ГҐГ«ГҐГ­ГЁГҐ Г§Г­Г ГЄГ  Г·ГЁГ±Г«Г 
     bool isNegative = (num[0] == '-');
     string absNum = isNegative ? num.substr(1) : num;
 
-    // Разделяем на целую и дробную части
+    // ГђГ Г§Г¤ГҐГ«ГїГҐГ¬ Г­Г  Г¶ГҐГ«ГіГѕ ГЁ Г¤Г°Г®ГЎГ­ГіГѕ Г·Г Г±ГІГЁ
     string integerPart, fractionalPart;
     size_t dotPos = absNum.find('.');
     if (dotPos != string::npos) {
@@ -876,10 +876,10 @@ string DivByTen(const string& num) {
         fractionalPart = "";
     }
 
-    // Добавляем ноль к дробной части для корректного деления
+    // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г­Г®Г«Гј ГЄ Г¤Г°Г®ГЎГ­Г®Г© Г·Г Г±ГІГЁ Г¤Г«Гї ГЄГ®Г°Г°ГҐГЄГІГ­Г®ГЈГ® Г¤ГҐГ«ГҐГ­ГЁГї
     fractionalPart += '0';
 
-    // Обрабатываем целую часть
+    // ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГ¬ Г¶ГҐГ«ГіГѕ Г·Г Г±ГІГј
     string result;
     int carry = 0;
     for (char digit : integerPart) {
@@ -888,33 +888,33 @@ string DivByTen(const string& num) {
         carry = current % 10;
     }
 
-    // Удаляем ведущие нули из целой части
+    // Г“Г¤Г Г«ГїГҐГ¬ ГўГҐГ¤ГіГ№ГЁГҐ Г­ГіГ«ГЁ ГЁГ§ Г¶ГҐГ«Г®Г© Г·Г Г±ГІГЁ
     result.erase(0, result.find_first_not_of('0'));
     if (result.empty()) {
         result = "0";
     }
 
-    // Добавляем точку для дробной части
+    // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ ГІГ®Г·ГЄГі Г¤Г«Гї Г¤Г°Г®ГЎГ­Г®Г© Г·Г Г±ГІГЁ
     result += '.';
 
-    // Обрабатываем дробную часть
+    // ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГ¬ Г¤Г°Г®ГЎГ­ГіГѕ Г·Г Г±ГІГј
     for (char digit : fractionalPart) {
         int current = carry * 10 + (digit - '0');
         result += (current / 10) + '0';
         carry = current % 10;
     }
 
-    // Удаляем лишние нули в конце дробной части
+    // Г“Г¤Г Г«ГїГҐГ¬ Г«ГЁГёГ­ГЁГҐ Г­ГіГ«ГЁ Гў ГЄГ®Г­Г¶ГҐ Г¤Г°Г®ГЎГ­Г®Г© Г·Г Г±ГІГЁ
     while (result.back() == '0' && result[result.size() - 2] != '.') {
         result.pop_back();
     }
 
-    // Если дробная часть состоит только из точки, убираем ее
+    // Г…Г±Г«ГЁ Г¤Г°Г®ГЎГ­Г Гї Г·Г Г±ГІГј Г±Г®Г±ГІГ®ГЁГІ ГІГ®Г«ГјГЄГ® ГЁГ§ ГІГ®Г·ГЄГЁ, ГіГЎГЁГ°Г ГҐГ¬ ГҐГҐ
     if (result.back() == '.') {
         result.pop_back();
     }
 
-    // Добавляем знак для отрицательного числа
+    // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г§Г­Г ГЄ Г¤Г«Гї Г®ГІГ°ГЁГ¶Г ГІГҐГ«ГјГ­Г®ГЈГ® Г·ГЁГ±Г«Г 
     if (isNegative) {
         result = '-' + result;
     }
@@ -942,7 +942,7 @@ string Sqrt(string num, int precision) {
     string high = n;
     string mid, square;
 
-    //юинарный поиск для целой части
+    //ГѕГЁГ­Г Г°Г­Г»Г© ГЇГ®ГЁГ±ГЄ Г¤Г«Гї Г¶ГҐГ«Г®Г© Г·Г Г±ГІГЁ
     while (LessThanOrEqual(low, high)) {
         mid = DivByTwo(Sum(low, high)); // mid = (low + high) / 2
         square = Multiply(mid, mid); // square = mid * mid
@@ -960,7 +960,7 @@ string Sqrt(string num, int precision) {
         }
     }
 
-    // добавление дробной части
+    // Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г¤Г°Г®ГЎГ­Г®Г© Г·Г Г±ГІГЁ
     string fraction = "0.";
     for (int i = 0; i < precision; i++) {
         fraction += "0";
@@ -982,13 +982,13 @@ string Sqrt(string num, int precision) {
 }
 //
 //string Sqrt(string x, string epsilon) {
-//        // Если x равен 0 или 1, результат равен самому x
+//        // Г…Г±Г«ГЁ x Г°Г ГўГҐГ­ 0 ГЁГ«ГЁ 1, Г°ГҐГ§ГіГ«ГјГІГ ГІ Г°Г ГўГҐГ­ Г±Г Г¬Г®Г¬Гі x
 //    if (x == "0" || x == "1") {
 //        return x;
 //    }
 //
 //    string left = "0";
-//    string right = x; // Если x < 1, ищем корень в диапазоне [0, 1]
+//    string right = x; // Г…Г±Г«ГЁ x < 1, ГЁГ№ГҐГ¬ ГЄГ®Г°ГҐГ­Гј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ [0, 1]
 //    string mid;
 //
 //    while (LessThanOrEqual(SubtractFloat(right, left), epsilon) == false) {
@@ -1001,22 +1001,22 @@ string Sqrt(string num, int precision) {
 //        }
 //    }
 //
-//    return left; // Приближённое значение квадратного корня
+//    return left; // ГЏГ°ГЁГЎГ«ГЁГ¦ВёГ­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ ГЄГўГ Г¤Г°Г ГІГ­Г®ГЈГ® ГЄГ®Г°Г­Гї
 //}
 
 string SqrtNewton(string x, string precision) {
    
     if (x == "0" or x == "1") {
-        return x; // Корень из 0 или 1 равен самому числу
+        return x; // ГЉГ®Г°ГҐГ­Гј ГЁГ§ 0 ГЁГ«ГЁ 1 Г°Г ГўГҐГ­ Г±Г Г¬Г®Г¬Гі Г·ГЁГ±Г«Гі
     }
 
-    string y = x; // Начальное приближение
+    string y = x; // ГЌГ Г·Г Г«ГјГ­Г®ГҐ ГЇГ°ГЁГЎГ«ГЁГ¦ГҐГ­ГЁГҐ
     string prevY;
 
     do {
         prevY = y;
         
-        y = DivByTwo(Sum(y,Multiply(x,OneDivBy(y,10)))); // Формула метода Ньютона
+        y = DivByTwo(Sum(y,Multiply(x,OneDivBy(y,10)))); // Г”Г®Г°Г¬ГіГ«Г  Г¬ГҐГІГ®Г¤Г  ГЌГјГѕГІГ®Г­Г 
     } while (LessThanOrEqual(y,prevY) ? LessThanOrEqual(precision,SubtractFloat(prevY, y)) : LessThanOrEqual(precision, SubtractFloat(y, prevY)));
 
     return y;
