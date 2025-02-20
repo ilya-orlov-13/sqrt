@@ -1,7 +1,7 @@
 #include "Header.h"
 using namespace std;
 
-// переворот строки
+//переворот строки
 void ReverseString(string& str) {
     int n = str.size();
     for (int i = 0; i < n / 2; i++) {
@@ -11,7 +11,7 @@ void ReverseString(string& str) {
     }
 }
 
-//óäàëåíèå âåäóùèõ íóëåé
+//удаление ведущих нулей
 string RemoveZeros(string& result, int i, int k) {
 
     while (result[i] == '0') {
@@ -51,7 +51,7 @@ string RemoveZeros(string& result, int i, int k) {
     return res;
 }
 
-// Ñðàâíåíèå ñòðîêîâûõ ÷èñåë
+//сравнение чисел
 bool LessThanOrEqual(string a, string b) {
     int pA = -1, pB = -1;
 
@@ -69,7 +69,7 @@ bool LessThanOrEqual(string a, string b) {
         }
     }
 
-    //åñëè òî÷êè íåò, äîáàâëÿåì â êîíåö ñòðîêè
+    //индекс точки
     if (pA == -1) {
         pA = a.size();
         a += ".0";
@@ -86,7 +86,6 @@ bool LessThanOrEqual(string a, string b) {
 
     int i = 0;
     if (pA == pB) {
-        //ñðàâíåíèå öåëûõ ÷àñòåé
         while (i < pA and i < pB) {
             if (a[i] < b[i]) return true; //a<b
             if (a[i] > b[i]) return false; //a>b
@@ -97,7 +96,7 @@ bool LessThanOrEqual(string a, string b) {
     if ((a.size() - 1 - i) > (b.size() - 1 - i)) return true; //a<b
     else if ((a.size() - 1 - i) < (b.size() - 1 - i)) return false; //a>b
     else {
-        //ñðàâíåíèå äðîáíûõ ÷àñòåé
+        //если часть после запятой больше - число меньше
         i = pA + 1;
         while (i < a.size() and i < b.size()) {
             if (a[i] < b[i]) return true; //a<b
@@ -109,21 +108,21 @@ bool LessThanOrEqual(string a, string b) {
 
 }
 
-// Ôóíêöèÿ äëÿ âû÷èòàíèÿ äâóõ âåùåñòâåííûõ ÷èñåë
+//разница вещественных чисел
 string SubtractFloat(string a, string b) {
     if (LessThanOrEqual(b, a)) {
 
         int aLen = a.length(), bLen = b.length();
 
-        //çàïÿòûå â ñòðîêå a
-        int kA = 0,      //êîëè÷åñòâî çàïÿòûõ
-            indexA = 0;  //èíäåêñ
+        //число a
+        int kA = 0,      //количесвто запятых
+            indexA = 0;  //индекс
 
         CountCommas(kA, indexA, a);
 
-        //çàïÿòûå â ñòðîêå b
-        int kB = 0,      //êîëè÷åñòâî çàïÿòûõ
-            indexB = 0;  //èíäåêñ
+        //число b
+        int kB = 0,      //количесвто запятых
+            indexB = 0;  //индекс
 
         CountCommas(kB, indexB, b);
 
@@ -142,12 +141,12 @@ string SubtractFloat(string a, string b) {
             }
         }
 
-        int diffB = bLen - 1 - indexB; //èíäåêñ çàïÿòîé â ñòðîêå b ñ êîíöà
-        int diffA = aLen - 1 - indexA; //èíäåêñ çàïÿòîé â ñòðîêå a ñ êîíöà
+        int diffB = bLen - 1 - indexB; //индекс запятой в числе b с конца
+        int diffA = aLen - 1 - indexA; //индекс запятой в числе a с конца
 
-        if (kA > 1 or kB > 1) return "Íåêîððåêòíûé ââîä";
+        if (kA > 1 or kB > 1) return "Некорректный ввод";
 
-        //âåùåñòâåííîå ÷èñëî
+        //добавление нулей
         else if (kA == 1 and kB == 1) {
 
             int iA = indexA; kA = 0;
